@@ -1,22 +1,27 @@
 package application.config;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Logger;
 
+@Slf4j
 public class DatasourceConfig {
-    private static final String URL = "jdbc:postgres://localhost:5432/todolist";
+    private static final String URL = "jdbc:postgresql://localhost:5432/todoapp";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "123";
     private static Connection connection;
+    private static Logger logger = Logger.getGlobal();
 
     public static Connection getConnection() {
         try {
             if (connection == null || connection.isClosed()) {
-                return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+                connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
             }
         } catch (SQLException e) {
-            throw new IllegalArgumentException("e");
+            logger.info("exception accured");
         }
         return connection;
     }

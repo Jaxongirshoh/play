@@ -20,17 +20,17 @@ public class TodoRepository implements AbstractRepository<Todo, Integer> {
     }
 
     @Override
-    public Todo getById(Integer integer) {
+    public Todo getById(Integer id) {
         return null;
     }
 
     @Override
-    public void delete(Integer integer) {
+    public void delete(Integer id) {
 
     }
 
     @Override
-    public Todo update(Integer integer) {
+    public Todo update(Integer id,Todo todo) {
         return null;
     }
 }

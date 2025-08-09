@@ -19,6 +19,15 @@ public class Todo {
 
     }
 
+    public Todo(Integer id, Integer userId, String task, String description, LocalDateTime createdAt, Status status) {
+        this.id = id;
+        this.userId = userId;
+        this.task = task;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.status = status;
+    }
+
     public Integer getUserId() {
         return userId;
     }
