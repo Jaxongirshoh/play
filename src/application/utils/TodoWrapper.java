@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TodoWrapper {
+public final class TodoWrapper {
 
     private TodoWrapper(){
         throw new IllegalStateException("Utility class");

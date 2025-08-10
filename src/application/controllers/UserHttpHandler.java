@@ -1,12 +1,14 @@
 package application.controllers;
 
+import application.model.User;
 import application.service.UserService;
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpContext;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.*;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.sql.SQLException;
+import java.util.List;
 
 public class UserHttpHandler implements HttpHandler {
 
@@ -37,23 +39,15 @@ public class UserHttpHandler implements HttpHandler {
     }
 
     private void doPost(HttpExchange exchange) {
-        Headers headers = exchange.getRequestHeaders();
-        headers.forEach((str,list)->{
-            System.out.println(str);
-            for (String s : list) {
-                System.out.println(s);
-            }
-        });
 
     }
 
-    private void doGet(HttpExchange exchange) {
-        Headers headers = exchange.getRequestHeaders();
-        headers.forEach((str,list)->{
-            System.out.println(str);
-            for (String s : list) {
-                System.out.println(s);
-            }
-        });
+    private void doGet(HttpExchange exchange) throws SQLException {
+        InputStream request = exchange.getRequestBody();
+        OutputStream response = exchange.getResponseBody();
+        List<User> users = userService.getAll();
+        //objecttobytearray
+        response.write();
+
     }
 }

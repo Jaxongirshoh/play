@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserWrapper {
+public final class UserWrapper {
 
     private UserWrapper(){
         throw new IllegalStateException("Utility class");
