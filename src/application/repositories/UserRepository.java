@@ -31,9 +31,11 @@ public class UserRepository implements AbstractRepository<User,Integer>  {
 
     @Override
     public User getById(Integer id) throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareStatement("select * from users u where id = ?");
+        System.out.println("getbyid : "+id);
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from users where id = ?");
         preparedStatement.setInt(1,id);
         ResultSet resultSet = preparedStatement.executeQuery();
+        System.out.println("=============");
         return UserWrapper.toEntity(resultSet);
     }
 

@@ -32,4 +32,9 @@ public class UserService implements AbstractService<User,UserDto,Integer>{
     public List<User> getAll() throws SQLException {
         return repository.getAll();
     }
+
+    public User getById(int id) throws SQLException {
+        System.out.println("getbyid :    "+id);
+        return repository.getById(id);
+    }
 }
