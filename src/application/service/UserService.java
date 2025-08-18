@@ -3,11 +3,14 @@ package application.service;
 import application.model.User;
 import application.model.dto.UserDto;
 import application.repositories.UserRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public class UserService implements AbstractService<User,UserDto,Integer>{
+    private static final Logger log = LogManager.getLogger(UserService.class);
     private final UserRepository repository;
 
     public UserService(UserRepository repository) {
@@ -34,7 +37,7 @@ public class UserService implements AbstractService<User,UserDto,Integer>{
     }
 
     public User getById(int id) throws SQLException {
-        System.out.println("getbyid :    "+id);
+        log.info("executing getById method userId :{} ",id);
         return repository.getById(id);
     }
 }

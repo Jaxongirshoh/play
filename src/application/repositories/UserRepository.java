@@ -3,7 +3,8 @@ package application.repositories;
 import application.config.DatasourceConfig;
 import application.model.User;
 import application.utils.UserWrapper;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,9 +12,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Slf4j
+//@Slf4j
 public class UserRepository implements AbstractRepository<User,Integer>  {
 
+    private static final Logger log = LogManager.getLogger(UserRepository.class);
     private final Connection connection;
 
     public UserRepository(Connection connection) {
@@ -31,11 +33,10 @@ public class UserRepository implements AbstractRepository<User,Integer>  {
 
     @Override
     public User getById(Integer id) throws SQLException {
-        System.out.println("getbyid : "+id);
+        log.info("executing getById userId: {}",id);
         PreparedStatement preparedStatement = connection.prepareStatement("select * from users where id = ?");
         preparedStatement.setInt(1,id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        System.out.println("=============");
         return UserWrapper.toEntity(resultSet);
     }
 

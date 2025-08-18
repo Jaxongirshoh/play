@@ -5,6 +5,8 @@ import application.model.dto.UserDto;
 import application.service.UserService;
 import application.utils.GsonUtil;
 import com.sun.net.httpserver.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public class UserHttpHandler implements HttpHandler {
 
+    private static final Logger log = LogManager.getLogger(UserHttpHandler.class);
     private final UserService userService;
 
     public UserHttpHandler(UserService userService) {
@@ -23,8 +26,7 @@ public class UserHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        HttpContext httpContext = exchange.getHttpContext();
-        System.out.println(httpContext.getPath());
+        log.info("UserHttpHandler method  Path :{}",exchange.getRequestURI().getPath());
         String requestMethod = exchange.getRequestMethod();
         try {
             switch (requestMethod) {
@@ -43,29 +45,23 @@ public class UserHttpHandler implements HttpHandler {
     }
 
     private void doDelete(HttpExchange httpExchange) throws SQLException, IOException {
+        log.info("Delete method handler: {}, Path: {}",httpExchange.getRequestMethod(),httpExchange.getRequestURI().getPath());
         String[] path = httpExchange.getRequestURI().getPath().split("/");
-        for (int i = 0; i < path.length; i++) {
-            System.out.println("path index "+i+path[i]);
-        }
         OutputStream responseBody = httpExchange.getResponseBody();
         if (path.length>=2){
-            System.out.println("path 1 "+path[2]);
             int id = Integer.valueOf(path[2]);
-            System.out.println(id);
-            User user = userService.getById(id);
-            System.out.println(user);
-            String json = GsonUtil.objectToJson(user);
-            responseBody.write(json.getBytes(StandardCharsets.UTF_8));
+            userService.delete(id);
             httpExchange.getResponseHeaders().add("Content-Type","application/json");
-            httpExchange.sendResponseHeaders(200,0);
-            System.out.println("");
+            httpExchange.sendResponseHeaders(204,0);
             responseBody.close();
             return;
         }
         httpExchange.sendResponseHeaders(404,0);
+        httpExchange.close();
     }
 
     private void doPost(HttpExchange exchange) throws IOException, SQLException {
+        log.info("Post method handler: {}, Path: {}",exchange.getRequestMethod(),exchange.getRequestURI().getPath());
         InputStream requestBody = exchange.getRequestBody();
         UserDto user = GsonUtil.fromJsonToObject(requestBody, UserDto.class);
         User add = userService.add(user);
@@ -75,7 +71,7 @@ public class UserHttpHandler implements HttpHandler {
     }
 
     private void doGet(HttpExchange exchange) throws SQLException, IOException {
-        InputStream request = exchange.getRequestBody();
+        log.info("Get method handler: {} , Path : {}",exchange.getRequestMethod(),exchange.getRequestURI().getPath());
         OutputStream response = exchange.getResponseBody();
         List<User> users = userService.getAll();
         exchange.sendResponseHeaders(200,0);

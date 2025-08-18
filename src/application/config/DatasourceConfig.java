@@ -1,13 +1,11 @@
 package application.config;
 
-import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
 
-@Slf4j
 public class DatasourceConfig {
     private static final String URL = "jdbc:postgresql://localhost:5432/todoapp";
     private static final String USERNAME = "postgres";
