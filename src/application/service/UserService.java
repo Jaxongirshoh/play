@@ -19,25 +19,29 @@ public class UserService implements AbstractService<User,UserDto,Integer>{
 
     @Override
     public User add(UserDto dto) throws SQLException {
-        return repository.add(new User(dto.username(), dto.username()));
+        log.info("executing add() user:{}",dto);
+        return repository.add(new User(dto.username(), dto.password()));
     }
 
     @Override
     public User update(Integer id, UserDto dto) throws SQLException {
+        log.info("executing update() userId:{},user:{}",id,dto);
         return repository.update(id, new User(dto.username(),dto.password()));
     }
 
     @Override
     public void delete(Integer id) throws SQLException {
+        log.info("executing delete() id:{}",id);
         repository.delete(id);
     }
 
     public List<User> getAll() throws SQLException {
+        log.info("executing getAll():");
         return repository.getAll();
     }
 
     public User getById(int id) throws SQLException {
-        log.info("executing getById method userId :{} ",id);
+        log.info("executing getById() method userId :{} ",id);
         return repository.getById(id);
     }
 }

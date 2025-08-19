@@ -26,7 +26,7 @@ public class UserHttpHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        log.info("UserHttpHandler method  Path :{}",exchange.getRequestURI().getPath());
+        log.info("UserHttpHandler method  Path :{}", exchange.getRequestURI().getPath());
         String requestMethod = exchange.getRequestMethod();
         try {
             switch (requestMethod) {
@@ -35,49 +35,80 @@ public class UserHttpHandler implements HttpHandler {
                 case "DELETE" -> doDelete(exchange);
                 case "PUT" -> doPut(exchange);
             }
-        }catch (Exception e){
+        } catch (SQLException e) {
+
+        } catch (IOException e) {
 
         }
     }
 
-    private void doPut(HttpExchange exchange) {
-
-    }
-
-    private void doDelete(HttpExchange httpExchange) throws SQLException, IOException {
-        log.info("Delete method handler: {}, Path: {}",httpExchange.getRequestMethod(),httpExchange.getRequestURI().getPath());
-        String[] path = httpExchange.getRequestURI().getPath().split("/");
-        OutputStream responseBody = httpExchange.getResponseBody();
-        if (path.length>=2){
-            int id = Integer.valueOf(path[2]);
-            userService.delete(id);
-            httpExchange.getResponseHeaders().add("Content-Type","application/json");
-            httpExchange.sendResponseHeaders(204,0);
+    private void doPut(HttpExchange exchange) throws SQLException, IOException {
+        log.info("Put method handler: {}, Path: {}", exchange.getRequestMethod(), exchange.getRequestURI().getPath());
+        String[] path = exchange.getRequestURI().getPath().split("/");
+        InputStream requestBody = exchange.getRequestBody();
+        OutputStream responseBody = exchange.getResponseBody();
+        if (path.length >= 2) {
+            Integer id = Integer.valueOf(path[2]);
+            UserDto userDto = GsonUtil.fromJsonToObject(requestBody, UserDto.class);
+            User update = userService.update(id, userDto);
+            responseBody.write(GsonUtil.objectToByteArray(GsonUtil.objectToJson(update)));
+            exchange.getResponseHeaders().add("Content-Type", "application/json");
+            exchange.sendResponseHeaders(200, 0);
             responseBody.close();
             return;
         }
-        httpExchange.sendResponseHeaders(404,0);
+        exchange.sendResponseHeaders(400, 0);
+        exchange.close();
+    }
+
+    private void doDelete(HttpExchange httpExchange) throws SQLException, IOException {
+        log.info("Delete method handler: {}, Path: {}", httpExchange.getRequestMethod(), httpExchange.getRequestURI().getPath());
+        String[] path = httpExchange.getRequestURI().getPath().split("/");
+        OutputStream responseBody = httpExchange.getResponseBody();
+        if (path.length >= 2) {
+            int id = Integer.valueOf(path[2]);
+            userService.delete(id);
+            httpExchange.getResponseHeaders().add("Content-Type", "application/json");
+            httpExchange.sendResponseHeaders(204, 0);
+            responseBody.close();
+            return;
+        }
+        httpExchange.sendResponseHeaders(404, 0);
         httpExchange.close();
     }
 
     private void doPost(HttpExchange exchange) throws IOException, SQLException {
-        log.info("Post method handler: {}, Path: {}",exchange.getRequestMethod(),exchange.getRequestURI().getPath());
+        log.info("Post method handler: {}, Path: {}", exchange.getRequestMethod(), exchange.getRequestURI().getPath());
         InputStream requestBody = exchange.getRequestBody();
+        OutputStream responseBody = exchange.getResponseBody();
         UserDto user = GsonUtil.fromJsonToObject(requestBody, UserDto.class);
+        System.out.println(user);
         User add = userService.add(user);
-        exchange.sendResponseHeaders(201,0);
-        exchange.getRequestHeaders().add("Content-Type","application/json");
+        exchange.sendResponseHeaders(201, 0);
+        responseBody.write(GsonUtil.objectToByteArray(GsonUtil.objectToJson(add)));
+        exchange.getRequestHeaders().add("Content-Type", "application/json");
         requestBody.close();
     }
 
     private void doGet(HttpExchange exchange) throws SQLException, IOException {
-        log.info("Get method handler: {} , Path : {}",exchange.getRequestMethod(),exchange.getRequestURI().getPath());
-        OutputStream response = exchange.getResponseBody();
-        List<User> users = userService.getAll();
-        exchange.sendResponseHeaders(200,0);
-        exchange.getResponseHeaders().add("Content-Type","application/json");
-        String json = GsonUtil.objectToJson(users);
-        response.write(GsonUtil.objectToByteArray(json));
-        response.close();
+        log.info("Get method handler: {} , Path : {}", exchange.getRequestMethod(), exchange.getRequestURI().getPath());
+        String[] path = exchange.getRequestURI().getPath().split("/");
+        if (path.length < 2) {
+            OutputStream response = exchange.getResponseBody();
+            List<User> users = userService.getAll();
+            exchange.sendResponseHeaders(200, 0);
+            exchange.getResponseHeaders().add("Content-Type", "application/json");
+            String json = GsonUtil.objectToJson(users);
+            response.write(GsonUtil.objectToByteArray(json));
+            exchange.close();
+            return;
+        }
+        Integer id = Integer.valueOf(path[2]);
+        User user = userService.getById(id);
+        OutputStream os = exchange.getResponseBody();
+        os.write(GsonUtil.objectToByteArray(GsonUtil.objectToJson(user)));
+        exchange.getRequestHeaders().add("Content-Type", "application/json");
+        exchange.sendResponseHeaders(200, 0);
+        exchange.close();
     }
 }
