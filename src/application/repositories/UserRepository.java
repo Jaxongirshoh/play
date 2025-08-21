@@ -40,7 +40,7 @@ public class UserRepository implements AbstractRepository<User,Integer>  {
         preparedStatement.setInt(1,id);
         log.info("getById() executing query select * from users where id = {}",id);
         ResultSet resultSet = preparedStatement.executeQuery();
-        return UserWrapper.toEntity(resultSet);
+        return resultSet.next()?UserWrapper.toEntity(resultSet):null;
     }
 
     @Override
@@ -72,6 +72,6 @@ public class UserRepository implements AbstractRepository<User,Integer>  {
         PreparedStatement preparedStatement = connection.prepareStatement("select * from users");
         log.info("getAll() executing query select * from users");
         ResultSet resultSet = preparedStatement.executeQuery();
-        return UserWrapper.toEntityList(resultSet);
+        return resultSet.next()?UserWrapper.toEntityList(resultSet):null;
     }
 }

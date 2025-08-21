@@ -36,9 +36,9 @@ public class UserHttpHandler implements HttpHandler {
                 case "PUT" -> doPut(exchange);
             }
         } catch (SQLException e) {
-
+            e.printStackTrace();
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 
@@ -51,14 +51,14 @@ public class UserHttpHandler implements HttpHandler {
             Integer id = Integer.valueOf(path[2]);
             UserDto userDto = GsonUtil.fromJsonToObject(requestBody, UserDto.class);
             User update = userService.update(id, userDto);
-            responseBody.write(GsonUtil.objectToByteArray(GsonUtil.objectToJson(update)));
-            exchange.getResponseHeaders().add("Content-Type", "application/json");
             exchange.sendResponseHeaders(200, 0);
+            exchange.getResponseHeaders().add("Content-Type", "application/json");
+            responseBody.write(GsonUtil.objectToByteArray(GsonUtil.objectToJson(update)));
             responseBody.close();
             return;
         }
         exchange.sendResponseHeaders(400, 0);
-        exchange.close();
+        responseBody.close();
     }
 
     private void doDelete(HttpExchange httpExchange) throws SQLException, IOException {
@@ -68,13 +68,13 @@ public class UserHttpHandler implements HttpHandler {
         if (path.length >= 2) {
             int id = Integer.valueOf(path[2]);
             userService.delete(id);
-            httpExchange.getResponseHeaders().add("Content-Type", "application/json");
             httpExchange.sendResponseHeaders(204, 0);
+            httpExchange.getResponseHeaders().add("Content-Type", "application/json");
             responseBody.close();
             return;
         }
         httpExchange.sendResponseHeaders(404, 0);
-        httpExchange.close();
+        responseBody.close();
     }
 
     private void doPost(HttpExchange exchange) throws IOException, SQLException {
@@ -85,30 +85,30 @@ public class UserHttpHandler implements HttpHandler {
         System.out.println(user);
         User add = userService.add(user);
         exchange.sendResponseHeaders(201, 0);
+        exchange.getResponseHeaders().add("Content-Type", "application/json");
         responseBody.write(GsonUtil.objectToByteArray(GsonUtil.objectToJson(add)));
-        exchange.getRequestHeaders().add("Content-Type", "application/json");
-        requestBody.close();
+        responseBody.close();
     }
 
     private void doGet(HttpExchange exchange) throws SQLException, IOException {
         log.info("Get method handler: {} , Path : {}", exchange.getRequestMethod(), exchange.getRequestURI().getPath());
         String[] path = exchange.getRequestURI().getPath().split("/");
-        if (path.length < 2) {
-            OutputStream response = exchange.getResponseBody();
-            List<User> users = userService.getAll();
+        OutputStream response = exchange.getResponseBody();
+        if (path.length >2) {
+            Integer id = Integer.valueOf(path[2]);
+            User user = userService.getById(id);
             exchange.sendResponseHeaders(200, 0);
             exchange.getResponseHeaders().add("Content-Type", "application/json");
-            String json = GsonUtil.objectToJson(users);
+            String json = GsonUtil.objectToJson(user);
             response.write(GsonUtil.objectToByteArray(json));
-            exchange.close();
+            response.close();
             return;
         }
-        Integer id = Integer.valueOf(path[2]);
-        User user = userService.getById(id);
-        OutputStream os = exchange.getResponseBody();
-        os.write(GsonUtil.objectToByteArray(GsonUtil.objectToJson(user)));
-        exchange.getRequestHeaders().add("Content-Type", "application/json");
+        List<User> users = userService.getAll();
         exchange.sendResponseHeaders(200, 0);
-        exchange.close();
+        exchange.getResponseHeaders().add("Content-Type", "application/json");
+        String json = GsonUtil.objectToJson(users);
+        response.write(GsonUtil.objectToByteArray(json));
+        response.close();
     }
 }
