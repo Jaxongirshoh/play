@@ -1,9 +1,9 @@
-package application.controllers;
+package dev.wisespirit.application.controllers;
 
-import application.model.User;
-import application.model.dto.UserDto;
-import application.service.UserService;
-import application.utils.GsonUtil;
+import dev.wisespirit.application.model.User;
+import dev.wisespirit.application.model.dto.UserDto;
+import dev.wisespirit.application.service.UserService;
+import dev.wisespirit.application.utils.GsonUtil;
 import com.sun.net.httpserver.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.List;
 

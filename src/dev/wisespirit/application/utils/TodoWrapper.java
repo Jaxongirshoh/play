@@ -1,7 +1,7 @@
-package application.utils;
+package dev.wisespirit.application.utils;
 
-import application.enums.Status;
-import application.model.Todo;
+import dev.wisespirit.application.enums.Status;
+import dev.wisespirit.application.model.Todo;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

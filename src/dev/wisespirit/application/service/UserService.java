@@ -1,8 +1,8 @@
-package application.service;
+package dev.wisespirit.application.service;
 
-import application.model.User;
-import application.model.dto.UserDto;
-import application.repositories.UserRepository;
+import dev.wisespirit.application.model.User;
+import dev.wisespirit.application.model.dto.UserDto;
+import dev.wisespirit.application.repositories.UserRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

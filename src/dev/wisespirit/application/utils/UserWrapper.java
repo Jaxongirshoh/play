@@ -1,6 +1,6 @@
-package application.utils;
+package dev.wisespirit.application.utils;
 
-import application.model.User;
+import dev.wisespirit.application.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

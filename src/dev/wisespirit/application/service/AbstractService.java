@@ -1,7 +1,4 @@
-package application.service;
-
-import application.model.User;
-import application.model.dto.UserDto;
+package dev.wisespirit.application.service;
 
 import java.sql.SQLException;
 

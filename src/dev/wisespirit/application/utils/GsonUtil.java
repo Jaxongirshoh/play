@@ -1,4 +1,4 @@
-package application.utils;
+package dev.wisespirit.application.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.List;
 
 public final class GsonUtil {
     private static final Gson GSON = new GsonBuilder()

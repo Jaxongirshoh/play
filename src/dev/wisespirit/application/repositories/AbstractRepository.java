@@ -1,4 +1,4 @@
-package application.repositories;
+package dev.wisespirit.application.repositories;
 
 
 import java.sql.SQLException;

@@ -1,4 +1,4 @@
-package application.config;
+package dev.wisespirit.application.config;
 
 import java.util.ResourceBundle;
 

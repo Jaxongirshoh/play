@@ -1,10 +1,9 @@
-package application;
+package dev.wisespirit.application;
 
-import application.config.DatasourceConfig;
-import application.controllers.UserHttpHandler;
-import application.model.User;
-import application.repositories.UserRepository;
-import application.service.UserService;
+import dev.wisespirit.application.config.DatasourceConfig;
+import dev.wisespirit.application.controllers.UserHttpHandler;
+import dev.wisespirit.application.repositories.UserRepository;
+import dev.wisespirit.application.service.UserService;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -13,8 +12,6 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 public class Application {

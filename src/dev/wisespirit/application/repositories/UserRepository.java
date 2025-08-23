@@ -1,8 +1,7 @@
-package application.repositories;
+package dev.wisespirit.application.repositories;
 
-import application.config.DatasourceConfig;
-import application.model.User;
-import application.utils.UserWrapper;
+import dev.wisespirit.application.model.User;
+import dev.wisespirit.application.utils.UserWrapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

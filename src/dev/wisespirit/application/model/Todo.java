@@ -1,7 +1,7 @@
-package application.model;
+package dev.wisespirit.application.model;
 
-import application.annotations.Entity;
-import application.enums.Status;
+import dev.wisespirit.application.annotations.Entity;
+import dev.wisespirit.application.enums.Status;
 
 import java.time.LocalDateTime;
 import java.util.Objects;

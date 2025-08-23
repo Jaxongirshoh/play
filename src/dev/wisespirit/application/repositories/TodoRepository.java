@@ -1,11 +1,9 @@
-package application.repositories;
+package dev.wisespirit.application.repositories;
 
-import application.config.DatasourceConfig;
-import application.model.Todo;
+import dev.wisespirit.application.config.DatasourceConfig;
+import dev.wisespirit.application.model.Todo;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 public class TodoRepository implements AbstractRepository<Todo, Integer> {
     private final Connection connection;

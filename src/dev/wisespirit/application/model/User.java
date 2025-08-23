@@ -1,6 +1,6 @@
-package application.model;
+package dev.wisespirit.application.model;
 
-import application.annotations.Entity;
+import dev.wisespirit.application.annotations.Entity;
 
 import java.util.Objects;
 
