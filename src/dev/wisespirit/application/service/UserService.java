@@ -35,12 +35,14 @@ public class UserService implements AbstractService<User,UserDto,Integer>{
         repository.delete(id);
     }
 
+    @Override
     public List<User> getAll() throws SQLException {
         log.info("executing getAll():");
         return repository.getAll();
     }
 
-    public User getById(int id) throws SQLException {
+    @Override
+    public User getById(Integer id) throws SQLException {
         log.info("executing getById() method userId :{} ",id);
         return repository.getById(id);
     }

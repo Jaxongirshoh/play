@@ -23,7 +23,7 @@ public class UserRepository implements AbstractRepository<User,Integer>  {
 
     @Override
     public User add(User user) throws SQLException {
-        log.info("executing add user:{}",user);
+        log.info("executing add() user:{}",user);
         PreparedStatement preparedStatement = connection.prepareStatement("insert into users(username,password) values(?,?)");
         preparedStatement.setString(1, user.getUsername());
         preparedStatement.setString(2, user.getPassword());
@@ -60,9 +60,6 @@ public class UserRepository implements AbstractRepository<User,Integer>  {
         preparedStatement.setInt(3,id);
         log.info("update() executing query update users set username = {} ,password = {} where id = {}",user.getUsername(),user.getPassword(),id);
         preparedStatement.executeUpdate();
-        /*PreparedStatement psm = connection.prepareStatement("select * from users where id = ?");
-        ResultSet resultSet = psm.executeQuery();
-        return UserWrapper.toEntity(resultSet);*/
         return user;
     }
 

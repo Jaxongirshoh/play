@@ -12,7 +12,7 @@ public class Todo {
     private Integer userId;
     private String task;
     private String description;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
     private Status status = Status.NOT_STARTED;
 
     public Todo(){
@@ -25,6 +25,22 @@ public class Todo {
         this.task = task;
         this.description = description;
         this.createdAt = createdAt;
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
         this.status = status;
     }
 

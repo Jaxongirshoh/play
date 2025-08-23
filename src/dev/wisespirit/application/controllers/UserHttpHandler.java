@@ -35,9 +35,9 @@ public class UserHttpHandler implements HttpHandler {
                 case "PUT" -> doPut(exchange);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error("SQLException occurred :{}",e.getMessage());
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("IOException occurred :{}",e.getMessage());
         }
     }
 
